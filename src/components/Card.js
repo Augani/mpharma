@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { deleteProduct, editProduct } from "../redux/actions";
 
-const Card = (props) => {
+export const Card = (props) => {
   let gatdate = (dates) => {
     return dates.sort((a, b) => new Date(b.date) - new Date(a.date));
   };
