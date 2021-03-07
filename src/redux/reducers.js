@@ -3,6 +3,7 @@ import {
   ADD_PRODUCTS,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
+  UPDATE_PRODUCT,
 } from "./actions";
 
 const initialState = {
@@ -45,10 +46,26 @@ const Reducer = (state = initialState, action) => {
     case EDIT_PRODUCT:
       return {
         ...state,
-        products: state.products.map((o) =>
-          o.id === action.payload.id ? action.payload : o
-        ),
+        edit: state.products.filter((l) => l.id === action.payload)[0],
       };
+    case UPDATE_PRODUCT:
+      let r = {
+        ...state,
+        edit: null,
+        products: [...state.products].map((p) => {
+          let y = p;
+          if (p.id === action.payload.id) {
+            y.prices.push({
+              id: state.products.reduce((a, b) => a + b.prices.length, 0) + 1,
+              price: action.payload.productPrice,
+              date: new Date(),
+            });
+          }
+          return y;
+        }),
+      };
+      localStorage.setItem("products", JSON.stringify(r.products));
+      return r;
     default:
       return state;
   }

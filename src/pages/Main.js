@@ -1,20 +1,37 @@
 import React from "react";
-
 import { connect } from "react-redux";
 import Card from "../components/Card";
-import { addProduct, addProductAll } from "../redux/actions";
+import { addProduct, addProductAll, updateProduct } from "../redux/actions";
 
 const Main = (props) => {
-  let { products } = props;
-  //   const [products, setProducts] = React.useState(props.products);
+  let { products, edit } = props;
   const formRef = React.useRef();
-  const [form, setForm] = React.useState({});
+
+  const [form, setForm] = React.useState({
+    productName: "",
+    productPrice: 0,
+  });
+
+  const setMode = (b) => {
+    setForm(b);
+  };
+
   const submitForm = (e) => {
     e.preventDefault();
-    props.addProduct({ ...form, id: Math.random().toString(36).substr(2, 9) });
+    if (edit) {
+      props.updateProduct({ ...form, id: edit.id });
+    } else {
+      props.addProduct({
+        ...form,
+        id: Math.random().toString(36).substr(2, 9),
+      });
+    }
     formRef.current.reset();
+    setForm({
+      productName: "",
+      productPrice: "",
+    });
   };
-  console.log(props);
 
   const getData = () => {
     fetch("http://www.mocky.io/v2/5c3e15e63500006e003e9795")
@@ -44,6 +61,8 @@ const Main = (props) => {
             <input
               type="text"
               required
+              disabled={edit ? true : false}
+              value={form.productName}
               onChange={(e) =>
                 setForm({ ...form, productName: e.target.value })
               }
@@ -58,6 +77,7 @@ const Main = (props) => {
               type="number"
               id="productPrice"
               name="productPrice"
+              value={form.productPrice}
               onChange={(e) =>
                 setForm({ ...form, productPrice: e.target.value })
               }
@@ -66,21 +86,21 @@ const Main = (props) => {
             />
           </fieldset>
           <button className="h-8 top-3 right-4 rounded-sm bg-blue-500 text-white text-sm px-2 shadow-lg outline-none focus:outline-none">
-            Add
+            {!edit ? "Add" : "Update"}
           </button>
         </form>
-     
+
         <div className="p-2 lg:absolute  h-70 overflow-y-auto top-16 rounded-sm -right-20 px-3">
           {products.map((product) => (
             <Card
               key={product.id}
               title={product.name}
               price={product.prices}
+              UpdatePrice={setMode}
               id={product.id}
             />
           ))}
         </div>
-
       </main>
     </div>
   );
@@ -93,6 +113,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addProduct: (prod) => dispatch(addProduct(prod)),
   newProducts: (prod) => dispatch(addProductAll(prod)),
+  updateProduct: (prod) => dispatch(updateProduct(prod)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -26,12 +26,21 @@ const Card = (props) => {
       <div className="w-full flex flex-row justify-between items-center h-10">
         <div className="flex flex-row-reverse justify-around p-3">
           {gatdate(props.price).map((f, d) => (
-            <small className={`${d > 0 ? "line-through m-1" : "m-1"}`}>
+            <small key={d} className={`${d > 0 ? "line-through m-1" : "m-1"}`}>
               {f.price}
             </small>
           ))}
         </div>
-        <button className="h-8 rounded-sm bg-blue-500 text-white text-sm px-2 shadow-lg outline-none focus:outline-none">
+        <button
+          onClick={() => {
+            props.editProduct(props.id);
+            props.UpdatePrice({
+              productName: props.title,
+              productPrice: gatdate(props.price)[0].price,
+            });
+          }}
+          className="h-8 rounded-sm bg-blue-500 text-white text-sm px-2 shadow-lg outline-none focus:outline-none"
+        >
           Edit price
         </button>
       </div>
@@ -45,6 +54,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   deleteProduct: (id) => dispatch(deleteProduct(id)),
+  editProduct: (prod) => dispatch(editProduct(prod)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Card);
