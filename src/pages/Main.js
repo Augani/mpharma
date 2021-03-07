@@ -29,26 +29,15 @@ const Main = (props) => {
     getData();
   }, []);
   return (
-    <div className="bg-gradient-to-r flex  flex-col justify-center items-center from-white via-blue-100 to-blue-200 h-screen w-screen">
-      <main className="w-1/3 shadow-md  rounded-md bg-white my-10 h-90vh relative flex flex-col  items-center p-2">
+    <div className="bg-gradient-to-r flex  flex-col justify-center items-center from-pink-200 via-blue-100 to-blue-200 h-screen w-screen">
+      <main className="w-5/6 lg:w-1/3 shadow-md  rounded-md bg-white my-10 h-90vh relative flex flex-col  items-center p-2">
         <h1 className="text-gray-600 text-lg font-semibold tracking-wider">
           List of products
         </h1>
-        <div className="p-2 absolute  h-70 overflow-y-auto top-16 rounded-sm -right-20 px-3">
-          {products.map((product) => (
-            <Card
-              key={product.id}
-              title={product.name}
-              price={product.prices}
-              id={product.id}
-            />
-          ))}
-        </div>
-
         <form
           ref={formRef}
           onSubmit={submitForm}
-          className="w-1/2 flex flex-col p-4"
+          className="w-5/6 lg:w-1/2 flex flex-col p-4"
         >
           <fieldset className="mb-2">
             <label>Product name</label>
@@ -80,6 +69,18 @@ const Main = (props) => {
             Add
           </button>
         </form>
+     
+        <div className="p-2 lg:absolute  h-70 overflow-y-auto top-16 rounded-sm -right-20 px-3">
+          {products.map((product) => (
+            <Card
+              key={product.id}
+              title={product.name}
+              price={product.prices}
+              id={product.id}
+            />
+          ))}
+        </div>
+
       </main>
     </div>
   );
