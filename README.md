@@ -34,6 +34,9 @@ $ yarn
 # Run the project
 $ yarn start
 
+#Run tests
+$ yarn test
+
 # The server will initialize in the <http://localhost:3000>
 ```
 
