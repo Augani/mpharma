@@ -90,7 +90,7 @@ const Main = (props) => {
           </button>
         </form>
 
-        <div className="p-2 lg:absolute  h-70 overflow-y-auto top-16 rounded-sm -right-20 px-3">
+        <div className="p-2 lg:absolute  h-70 overflow-y-auto top-16 rounded-sm -right-36 px-3">
           {products.map((product) => (
             <Card
               key={product.id}
